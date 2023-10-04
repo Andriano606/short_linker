@@ -5,7 +5,6 @@ class LinksController < ApplicationController
 
   def index
     endpoint Link::Operation::Index, Link::Component::Index
-    # render Link::Component::Index.new(links: current_user.links)
   end
 
   def destroy

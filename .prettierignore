@@ -1,0 +1,2 @@
+vendor/assets/javascripts/**/*
+config/locales/en.yml

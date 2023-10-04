@@ -1,0 +1,130 @@
+name: Build and test
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        required: true
+        type: string
+      startup-mysql:
+        required: true
+        type: boolean
+      db-host:
+        required: true
+        type: string
+      db-pass:
+        required: true
+        type: string
+      image-os:
+        required: true
+        type: string
+        default: ubuntu20
+
+env:
+  ImageOS: ${{ inputs.image-os }} # Must be set for setup-ruby to work properly
+  RAILS_ENV: test
+  COVERAGE: 'true'
+  DB_HOST: ${{ inputs.db-host }}
+  DB_PASS: ${{ inputs.db-pass }}
+  CI: true
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+jobs:
+  linting:
+    timeout-minutes: 25
+    runs-on: ${{ inputs.runs-on }}
+    env:
+      TEST_DATABASE_URL: '' # Figaro complains without it, but it can be blank on linting
+      BUNDLE_WITHOUT: test:production:development
+      DISABLE_SPRING: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: ${{ inputs.runs-on != 'self-hosted' }} # runs 'bundle install' and caches installed gems automatically
+      - name: Bundle install
+        if: ${{ inputs.runs-on == 'self-hosted' }}
+        run: bundle install
+      - uses: actions/setup-node@v3
+        if: ${{ inputs.runs-on != 'self-hosted' }}
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - uses: actions/setup-node@v3
+        if: ${{ inputs.runs-on == 'self-hosted' }}
+        with:
+          node-version: 18
+      - run: yarn install --prefer-offline --frozen-lockfile # optional, --immutable
+      - name: Run linter
+        run: bundle exec ci/lint_check.rb
+  rspec:
+    timeout-minutes: 25
+    runs-on: ${{ inputs.runs-on }}
+    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstrategymatrix
+    strategy:
+      fail-fast: false
+      matrix:
+        ci_node_total: [4]
+        ci_node_index: [0, 1, 2, 3]
+    env:
+      CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
+      CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+      KNAPSACK_REPORT_PATH: "ci/knapsack_rspec_report.json"
+      FDOC: 1
+      FPROF: 1
+      RD_PROF: 1
+      RD_PROF_TOP: 10
+      BUNDLE_WITHOUT: linting:production:development
+      DISABLE_SPRING: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Change ImageMagick policy to allow pdf->png conversion.
+        if: ${{ inputs.runs-on != 'self-hosted' }}
+        run: sudo sed -i 's/^.*policy.*coder.*none.*PDF.*//' /etc/ImageMagick-6/policy.xml
+      - uses: ./.github/actions/setup_test
+        with:
+          startup-mysql: ${{ inputs.startup-mysql }}
+          runs-on: ${{ inputs.runs-on }}
+          db-name-append: 'rspec'
+      # We need to compile the CSS because of the controller tests which otherwise will
+      # trigger a CSS compilation from sprockets
+      - name: Compile CSS
+        run: bundle exec rails dartsass:build
+      - name: rspec
+        run: time bundle exec rails "knapsack:rspec[-f p -f RspecJunitFormatter --out rspec.xml]"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-rspec-${{ env.CI_NODE_INDEX }}
+          path: coverage/
+          retention-days: 1 # It will be used immediately by the coverage job, no need to retain this any longer
+  cucumber:
+    timeout-minutes: 25
+    runs-on: ${{ inputs.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ci_node_total: [12]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    env:
+      # ENVs for parallel running
+      CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
+      CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+      KNAPSACK_REPORT_PATH: "ci/knapsack_cucumber_all_report.json"
+      BUNDLE_WITHOUT: linting:production:development
+      DISABLE_SPRING: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup_test
+        with:
+          startup-mysql: ${{ inputs.startup-mysql }}
+          runs-on: ${{ inputs.runs-on }}
+          db-name-append: 'cucumber'
+      - name: Precompile assets
+        run: time bundle exec rails assets:precompile
+      - name: cucumber
+        run: time bundle exec rails "knapsack:cucumber[-f progress -f json -o cucumber_result_${CI_NODE_INDEX}.json]"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-cucumber-${{ env.CI_NODE_INDEX }}
+          path: coverage/
+          retention-days: 1 # It will be used immediately by the coverage job, no need to retain this any longer
