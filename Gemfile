@@ -45,17 +45,20 @@ group :development, :test do
 end
 
 group :development, :linting do
+  gem 'bundler-audit'
+  gem 'easy_translate' # Used for translating i18n-keys MIT-License
+  gem 'i18n-tasks', '1.0.11'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-graphql', require: false
   gem 'slim_lint'
 end
 
 group :development do
   gem 'lefthook'
-  gem 'rubocop', require: false
-  gem 'rubocop-graphql', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
   gem 'rubocop-rake', require: false
-  gem 'rubocop-rspec', require: false
   gem 'web-console'
 end
 

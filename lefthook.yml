@@ -1,46 +1,46 @@
 pre-push:
-  # commands:
-  #   i18n-linting:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "config/locales/*.yml"
-  #     run: bundle exec i18n-tasks check-normalized
-  #   i18n-missing:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "config/locales/*.yml"
-  #     run: bundle exec i18n-tasks missing
-  #   js-lint:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "*.{js,ts,es6,jsx,vue}"
-  #     # use ./node_modules/.bin/prettier --write "{config,app/javascript}/**/*.{js,ts,vue}" to fix any errors
-  #     run: "./node_modules/.bin/prettier --check {files}"
-  #   typescript:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "*.{ts}"
-  #     run: "./node_modules/.bin/vue-tsc --noEmit --project tsconfig.json"
-  #   rubocop:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "*.{rb,xml.builder}"
-  #     run: bundle exec rubocop --force-exclusion {files}
-  #   slim-lint:
-  #     files: git diff --name-only HEAD main # only changes
-  #     glob: "*.{slim}"
-  #     run: slim-lint {files}
-  # parallel: true
+  commands:
+    i18n-linting:
+      files: git diff --name-only HEAD main # only changes
+      glob: "config/locales/*.yml"
+      run: bundle exec i18n-tasks check-normalized
+    i18n-missing:
+      files: git diff --name-only HEAD main # only changes
+      glob: "config/locales/*.yml"
+      run: bundle exec i18n-tasks missing
+    js-lint:
+      files: git diff --name-only HEAD main # only changes
+      glob: "*.{js,ts,es6,jsx,vue}"
+      # use ./node_modules/.bin/prettier --write "{config,app/javascript}/**/*.{js,ts,vue}" to fix any errors
+      run: "./node_modules/.bin/prettier --check {files}"
+    typescript:
+      files: git diff --name-only HEAD main # only changes
+      glob: "*.{ts}"
+      run: "./node_modules/.bin/vue-tsc --noEmit --project tsconfig.json"
+    rubocop:
+      files: git diff --name-only HEAD main # only changes
+      glob: "*.{rb,xml.builder}"
+      run: bundle exec rubocop --force-exclusion {files}
+    slim-lint:
+      files: git diff --name-only HEAD main # only changes
+      glob: "*.{slim}"
+      run: slim-lint {files}
+  parallel: true
 fixer:
   commands:
-    # i18n-linting:
-    #   files: git diff --name-only HEAD main
-    #   glob: "*.yml"
-    #   run: i18n-tasks normalize
-    # js-lint:
-    #   files: git diff --name-only HEAD main
-    #   glob: "*.{js,ts,vue}"
-    #   run: "./node_modules/.bin/prettier --write {files}"
+    i18n-linting:
+      files: git diff --name-only HEAD main
+      glob: "*.yml"
+      run: i18n-tasks normalize
+    js-lint:
+      files: git diff --name-only HEAD main
+      glob: "*.{js,ts,vue}"
+      run: "./node_modules/.bin/prettier --write {files}"
     rubocop:
-      # files: git diff --name-only HEAD main
-      # glob: "*.{rb}"
-      # run: bundle exec rubocop -A --force-exclusion {files} --only Style/FrozenStringLiteralComment &&
-      #      bundle exec rubocop --force-exclusion -a {files}
+      files: git diff --name-only HEAD main
+      glob: "*.{rb}"
+      run: bundle exec rubocop -A --force-exclusion {files} --only Style/FrozenStringLiteralComment &&
+           bundle exec rubocop --force-exclusion -a {files}
     slim-lint:
       files: git diff --name-only HEAD main # only changes
       glob: "*.{slim}"
