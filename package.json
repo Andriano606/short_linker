@@ -1,0 +1,11 @@
+{
+  "name": "short_linker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Andrii Kuluiev <andreykuluev@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2"
+  },
+  "devDependencies": {}
+}

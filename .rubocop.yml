@@ -1,0 +1,244 @@
+require: 
+  - rubocop-rails
+  - rubocop-factory_bot
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-graphql
+  - rubocop-capybara
+  - rubocop-rspec
+  - rubocop-rake
+
+AllCops:
+  TargetRubyVersion: 3.2
+  # Setting NewCops to disable is a conservative setting which ensures we will only get cops
+  # that are at least one version old:
+  NewCops: disable
+  Exclude:
+    - 'Gemfile*'
+    - 'bin/**/*'
+    - 'ci/**/*.rb'
+    - 'out/**/*'
+    - 'tmp/**/*'
+    - 'db/schema.rb'
+    - 'db/data_schema.rb'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+# 2020-06-17 We decided to disable this cop
+Style/NegatedIf:
+  Enabled: false
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+# TODO: review after migrate to version > 1.0.0
+Layout/TrailingWhitespace:
+  Enabled: false
+
+# We do not use this cop which suggests using .nonzero? instead of val != 0.
+Style/NumericPredicate:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+# We don't use these styles
+Layout/SpaceInsideHashLiteralBraces:
+  # We use {a:b, c:d}   not { a:b, c:d }
+  Enabled: false
+
+Layout/CaseIndentation:
+  # We indent case in a switch
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# We prefer writing !include instead of exclude, and !valid instead of invalid
+Style/InverseMethods:
+  Enabled: false
+
+Style/AsciiComments:
+  AllowedChars:
+    - '§' # Sometimes used in links to laws we refer in comments
+
+# We prefer keyword parameter lists to unnamed options
+Metrics/ParameterLists:
+  Enabled: false
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - 'n'
+    - 'id'
+    - 'to'
+    - 'io'
+    - 'iv'
+
+# TODO: review offenses
+Naming/VariableNumber:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/ClassLength:
+  Max: 250
+
+Metrics/AbcSize:
+  Max: 100
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+
+Metrics/BlockLength:
+  Max: 50
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/ModuleLength:
+  Max: 250
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Style/Documentation:
+  Enabled: false
+
+# We don't mind using update_all et al in the specs.
+Rails/SkipsModelValidations:
+  AllowedMethods: ['touch']
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'db/**/*.rb'
+
+Naming/FileName:
+  ExpectMatchingDefinition: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'features/**/*.rb'
+    - 'lib/rubocop/**/*.rb'
+    - 'lib/inputs/**/*.rb'
+    - 'db/**/*.rb'
+    - '**/*.builder'
+    - '**/*.jbuilder'
+    - '**/*.rake'
+    - '**/*.axlsx'
+    - 'config.ru'
+    - '**/*_decorator.rb'
+    - 'ci/update_chromedriver.rb'
+    - 'performance_test/run.rb'
+    - 'lib/generators/**/*.rb'
+
+# case is sometimes more compact and reads better than if/elsif/else/end.
+Style/EmptyCaseCondition:
+  Enabled: false
+
+# AnyInstance is really the only good way of stubbing our Operations.perform methods
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/ExpectChange:
+  EnforcedStyle: block
+
+# Finds too many false positives
+RSpec/RepeatedExampleGroupBody:
+  Enabled: false
+
+# We use `to be` here and there and the alternatives suggested by Rubocop
+# aren't necessarily better.
+RSpec/Be:
+  Enabled: false
+
+# Rubocop does have a point about requiring a more descriptive name than subject
+# but there are too many occurrences to fix at once. We cope with the problem by
+# disabling the cop for existing offending tests but leave it otherwise enabled.
+#
+# See https://lucalabs.atlassian.net/browse/IN-1478
+RSpec/NamedSubject:
+  Enabled: true
+
+# We like to specify :each explicitly.
+RSpec/HookArgument:
+  Enabled: false
+
+# We don't mind having more than one expectation per example.
+RSpec/MultipleExpectations:
+  Max: 28
+  Exclude:
+    - spec/graphql/queries/**/*.rb # We don't mind having more than 28 since we have to check for all fields returned
+
+# We prefer to organise operations specs a bit differently than RSpec/FilePath prefers so we exclude those RSpecs
+RSpec/FilePath:
+  Exclude:
+    - spec/operations/**/*.rb
+    - spec/jobs/**/*.rb
+
+RSpec/NestedGroups:
+  # We use nested contexts quite a bit for differentiating between different cases.
+  # One can argue against that practice, but as long as we do,
+  # we should have Max set to 4 instead of the default 3
+  Max: 4
+
+# We use memoized helpers a lot
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# The settings below are to help us start using rubocop-rspec. They aren't
+# ideal but fixing them isn't worth the investment.
+RSpec/LetSetup:
+  Enabled: false
+
+# TODO: review if we can use here allow instead of expect
+RSpec/StubbedMock:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 31
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+# 2023-05-25: FactoryBot/CreateList suggests changing some [] into create_list that we dont really want to
+# It might be a bit overzealous, maybe we can try adding it back later
+FactoryBot/CreateList:
+  Enabled: false
+
+# TODO: review offenses
+Lint/FloatComparison:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+# We have decided not to use ordered fields
+GraphQL/OrderedFields:
+  Enabled: false
+
+# GraphQL/ExtractType seems to give a lot of false positives.
+GraphQL/ExtractType:
+  Enabled: false
+
+# We have decided to keep inputs in mutations from time to time, so we disable GraphQL/ExtractInputType
+GraphQL/ExtractInputType:
+  Enabled: false
+
+GraphQL/OrderedArguments:
+  Enabled: false

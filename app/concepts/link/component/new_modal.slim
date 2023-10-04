@@ -1,0 +1,16 @@
+.btn.btn-outline-success data-bs-toggle="modal" data-bs-target="#create_modal"
+  .fa-solid.fa-plus
+  = ' '
+  = 'Add new'
+
+#create_modal.modal
+  .modal-dialog
+    .modal-content
+      == simple_form_for Link.new, url: link_path, method: :post do |f|
+        .modal-header
+            = 'Edit link'
+        .modal-body
+          = f.input :full_link
+        .modal-footer
+          button.btn.btn-secondary type="button" data-bs-dismiss="modal" = 'Cancel'
+          = f.button :submit, class: 'btn btn-secondary'

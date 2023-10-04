@@ -1,9 +1,9 @@
-
+# frozen_string_literal: true
 
 class Link < ApplicationRecord
   before_create :create_short_link
 
-  has_many :user_links, :foreign_key => :short_link
+  has_many :user_links, foreign_key: :short_link, dependent: :destroy
   has_many :users, through: :user_links
 
   def self.generate_short_link(full_link)
@@ -11,6 +11,6 @@ class Link < ApplicationRecord
   end
 
   def create_short_link
-    self.short_link = Link::generate_short_link(self.full_link)
+    self.short_link = Link.generate_short_link(full_link)
   end
 end

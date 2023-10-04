@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserLinks < ActiveRecord::Migration[7.0]
   def change
     create_table :user_links do |t|
@@ -7,6 +9,9 @@ class CreateUserLinks < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_foreign_key :user_links, :links, column: :short_link, primary_key: :short_link
+    add_foreign_key :user_links,
+                    :links,
+                    column: :short_link,
+                    primary_key: :short_link
   end
 end

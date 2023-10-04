@@ -1,0 +1,27 @@
+h1 
+  .row
+    .col-auto
+      = 'Your Links'
+    .col.text-sm-end
+      = render(Link::Component::NewModal.new())
+  hr
+
+table.table data-controller="hello"
+  thead
+    tr
+      th scope="col" = '#'
+      th scope="col" = 'Full link'
+      th scope="col" = 'Short link'
+      th
+  tbody
+    - @links.each_with_index do |link, index|
+      tr
+        th scope="row" = index + 1
+        td = link.full_link
+        td = link.short_link
+        td.row
+          .col-auto
+            == simple_form_for link, method: :delete do |f|
+              = f.hidden_field :short_link
+              = button_tag type: 'submit', class: "btn btn-outline-danger" do
+                i.fa-solid.fa-xmark
