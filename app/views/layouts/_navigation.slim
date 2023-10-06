@@ -1,0 +1,24 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  = link_to 'Short Linker', root_path, class: 'navbar-brand'
+  button.navbar-toggler[
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"]
+    span.navbar-toggler-icon
+
+  - if logged_in?
+    .dropdown.navbar-end
+      a.nav-link.dropdown-toggle {
+        href='#'
+        id='navbarDropdown'
+        role='button'
+        data-bs-toggle='dropdown'
+        aria-expanded='false'
+      }
+        = current_user.email
+      ul.dropdown-menu.dropdown-menu-end aria-labelledby='navbarDropdown'
+        li.dropdown-item = link_to 'Subscriptions', root_path, class: 'nav-link'
+        li.dropdown-item = link_to 'Log out', destroy_user_session_path, class: 'nav-link', method: :delete
