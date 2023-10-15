@@ -1,10 +1,9 @@
-h1
-  .row
-    .col-auto
-      = 'Your Links'
-    .col.text-sm-end
-      = render(Link::Component::NewModal.new)
-  hr
+.row
+  .col-auto
+    h1 = 'Your Links'
+  .col.text-sm-end.mt-auto
+    = render(Link::Component::NewModal.new)
+hr
 
 table.table
   thead

@@ -1,6 +1,4 @@
 ---
 en:
-  errors:
-    messages:
-      not_saved: Not saved
-  hello: Hello world
+  subscriptions:
+    header: Subscriptions

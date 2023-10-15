@@ -9,8 +9,9 @@ class User < ApplicationRecord
          :rememberable,
          :validatable
 
-  has_many :user_links
+  has_many :user_links, dependent: :destroy
   has_many :links, through: :user_links
+  has_one :subscription, dependent: :destroy
 
   def admin?
     false
