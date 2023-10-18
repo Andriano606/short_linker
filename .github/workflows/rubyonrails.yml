@@ -77,4 +77,4 @@ jobs:
           node-version: 18
       - run: yarn install --prefer-offline --frozen-lockfile # optional, --immutable
       - name: Run linter
-        run: bundle exec ci/lint_check.rb
+        run: bundle exec rails runner ci/lint_check.rb

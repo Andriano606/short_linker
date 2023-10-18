@@ -1,9 +1,9 @@
-h1 
+h1
   .row
     .col-auto
       = 'Your Links'
     .col.text-sm-end
-      = render(Link::Component::NewModal.new())
+      = render(Link::Component::NewModal.new)
   hr
 
 table.table data-controller="hello"
@@ -23,5 +23,5 @@ table.table data-controller="hello"
           .col-auto
             == simple_form_for link, method: :delete do |f|
               = f.hidden_field :short_link
-              = button_tag type: 'submit', class: "btn btn-outline-danger" do
+              = button_tag type: 'submit', class: 'btn btn-outline-danger' do
                 i.fa-solid.fa-xmark
