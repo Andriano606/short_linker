@@ -3,7 +3,7 @@
 class Link < ApplicationRecord
   before_create :create_short_link
 
-  has_many :user_links, foreign_key: :short_link, dependent: :destroy
+  has_many :user_links, foreign_key: :short_link, dependent: :destroy, inverse_of: :link
   has_many :users, through: :user_links
 
   def self.generate_short_link(full_link)
