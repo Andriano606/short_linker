@@ -35,6 +35,7 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -42,6 +43,7 @@ group :development, :test do
   gem 'parallel'
   gem 'rspec-benchmark'
   gem 'rspec-rails', '~> 5.0'
+  gem 'cucumber-rails', require: false
 end
 
 group :development, :linting do
