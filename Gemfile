@@ -5,16 +5,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
-gem 'rails', '~> 7.0.7'
-gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'rails', '7.0.7'
 gem 'bootsnap', require: false
+gem 'figaro'
 gem 'devise'
 gem 'fastlane'
 gem 'font-awesome-sass'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg', '~> 1.1'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.0'
 gem 'rake'
 gem 'simple_form'
 gem 'slim-rails'
@@ -23,7 +23,6 @@ gem 'versionomy'
 gem 'view_component'
 gem 'stripe'
 gem 'vite_rails'
-gem 'stimulus-rails'
 
 # prettier
 gem 'prettier_print'
@@ -46,6 +45,7 @@ group :development, :test do
   gem 'parallel'
   gem 'rspec-benchmark'
   gem 'rspec-rails', '~> 5.0'
+  gem 'cucumber-rails', require: false
 end
 
 group :development, :linting do
@@ -67,6 +67,7 @@ group :development do
 end
 
 group :test do
+  gem 'faker'
   gem 'capybara'
   gem 'parallel_tests'
   gem 'selenium-webdriver'

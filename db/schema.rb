@@ -14,10 +14,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_07_151218) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "links", primary_key: "short_link", id: { type: :string, limit: 8 }, force: :cascade do |t|
+  create_table "links", force: :cascade do |t|
     t.text "full_link"
+    t.string "short_link", limit: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["short_link"], name: "index_links_on_short_link", unique: true
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -31,10 +33,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_07_151218) do
   end
 
   create_table "user_links", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "short_link", limit: 8, null: false
+    t.bigint "user_id"
+    t.bigint "link_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["link_id"], name: "index_user_links_on_link_id"
     t.index ["user_id"], name: "index_user_links_on_user_id"
   end
 
@@ -51,6 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_07_151218) do
   end
 
   add_foreign_key "subscriptions", "users"
-  add_foreign_key "user_links", "links", column: "short_link", primary_key: "short_link"
+  add_foreign_key "user_links", "links"
   add_foreign_key "user_links", "users"
 end

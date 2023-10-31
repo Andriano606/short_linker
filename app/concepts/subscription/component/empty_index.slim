@@ -6,5 +6,5 @@ h1
 
 .container
   .card-deck.mb-3.text-center
-    - @available_subscription_plans.each do |subscription_plan|
+    - @available_subscription_plans&.each do |subscription_plan|
       = render Subscription::Component::Card.new(OpenStruct.new(**subscription_plan))

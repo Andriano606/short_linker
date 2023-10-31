@@ -28,6 +28,12 @@
     <%= render 'layouts/navigation' %>
       <center>
         <div id="page-content">
+          <% flash.each do |type, msg| %>
+            <div class="alert alert-success" role="alert">
+              <%= msg %>
+            </div>
+          <% end %>
+
           <%= yield %>
         </div>
       </center>

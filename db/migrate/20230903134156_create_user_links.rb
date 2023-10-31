@@ -3,15 +3,10 @@
 class CreateUserLinks < ActiveRecord::Migration[7.0]
   def change
     create_table :user_links do |t|
-      t.references :user, null: false, foreign_key: true
-      t.string :short_link, null: false, limit: 8
+      t.references :user, foreign_key: true
+      t.references :link, foreign_key: true
 
       t.timestamps
     end
-
-    add_foreign_key :user_links,
-                    :links,
-                    column: :short_link,
-                    primary_key: :short_link
   end
 end

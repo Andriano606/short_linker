@@ -1,4 +1,17 @@
 ---
 en:
+  devise:
+    registrations:
+      signed_up: Welcome! You have signed up successfully.
+  errors:
+    messages:
+      not_saved: Not saved
+  hello: Hello world
+  link:
+    create:
+      error:
+        user_already_has_this_link: You already had this link
+  subscribe:
+    button_label: Button label
   subscriptions:
     header: Subscriptions
