@@ -1,5 +1,8 @@
 ---
 en:
+  devise:
+    registrations:
+      signed_up: Welcome! You have signed up successfully.
   errors:
     messages:
       not_saved: Not saved

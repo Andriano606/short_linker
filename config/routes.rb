@@ -11,7 +11,8 @@ Rails.application.routes.draw do
                unlock: 'unblock',
                registration: 'register',
                sign_up: 'signup'
-             }
+             },
+             controllers: { registrations: 'registrations' }
 
   resource :link, only: %i[create destroy index]
 
