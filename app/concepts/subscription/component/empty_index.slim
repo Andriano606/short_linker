@@ -1,0 +1,10 @@
+h1
+  .row
+    .col-auto
+      = I18n.t('subscriptions.header')
+  hr
+
+.container
+  .card-deck.mb-3.text-center
+    - @available_subscription_plans&.each do |subscription_plan|
+      = render Subscription::Component::Card.new(OpenStruct.new(**subscription_plan))

@@ -1,0 +1,19 @@
+button [
+  type="button"
+  class="btn btn-lg btn-block btn-outline-primary"
+  data-bs-toggle="modal"
+  data-bs-target="##{modal_id}"
+  ]
+  = I18n.t('subscribe.button_label')
+
+.modal[id="#{modal_id}"]
+  .modal-dialog
+    .modal-content
+      == simple_form_for Link.new, url: link_path, method: :post do |f|
+        .modal-header
+          = 'Edit link'
+        .modal-body
+          = f.input :full_link
+        .modal-footer
+          button.btn.btn-secondary type="button" data-bs-dismiss="modal" = 'Cancel'
+          = f.button :submit, class: 'btn btn-secondary'

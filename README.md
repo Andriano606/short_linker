@@ -1,7 +1,21 @@
-# short_linker
+# Short linker
 
-## To run tests
-RAILS_ENV=development bundle exec cucumber
-RAILS_ENV=development bundle exec rspec
-#### to run without chrome: RAILS_ENV=test bundle exec cucumber
+## Run tests
+```
+$ bundle exec cucumber
+$ bundle exec rspec
 
+To run with chrome: 
+$ RAILS_ENV=development bundle exec cucumber
+```
+
+## Run server
+```
+$ rails s
+$ bin/vite dev
+```
+
+## Edit Credentinals
+```
+$ EDITOR=nano rails credentials:edit
+```

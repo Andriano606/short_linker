@@ -8,7 +8,7 @@
     .modal-content
       == simple_form_for Link.new, url: link_path, method: :post do |f|
         .modal-header
-            = 'Edit link'
+          = 'Edit link'
         .modal-body
           = f.input :full_link
         .modal-footer

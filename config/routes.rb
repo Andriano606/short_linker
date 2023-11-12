@@ -15,6 +15,7 @@ Rails.application.routes.draw do
              controllers: { registrations: 'registrations' }
 
   resource :link, only: %i[create destroy index]
+  resources :subscriptions, only: [:index, :create]
 
   get '/:short_link', to: 'links#redirect', as: :custom_route
 

@@ -1,0 +1,13 @@
+.card.mb-4.box-shadow
+  .card-header
+    h4.my-0.font-weight-normal
+      = @subscription_plan.header
+  .card-body
+    h1.card-title.pricing-card-title
+      = "$#{@subscription_plan.price}"
+      small.text-muted
+        = "/#{@subscription_plan.period}"
+    ul.list-unstyled.mt-3.mb-4
+      = @subscription_plan.description
+
+    = render Subscription::Component::CardModal.new

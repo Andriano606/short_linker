@@ -1,12 +1,21 @@
 {
+  "devDependencies": {
+    "stimulus-vite-helpers": "^3.0.1",
+    "vite": "^4.5.0",
+    "vite-plugin-full-reload": "^1.0.5",
+    "vite-plugin-ruby": "^3.2.2",
+    "vite-plugin-stimulus-hmr": "^3.0.0"
+  },
   "name": "short_linker",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Andrii Kuluiev <andreykuluev@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "dev": "vite"
+  },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "prettier": "^3.0.3"
   },
-  "devDependencies": {}
+  "license": "MIT"
 }

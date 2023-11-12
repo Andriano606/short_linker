@@ -5,24 +5,24 @@ class LinksController < ApplicationController
 
   def index
     endpoint Link::Operation::Index, Link::Component::Index
-    # render Link::Component::Index.new(links: current_user.links)
   end
 
   def destroy
-    link = Link.find(params[:link][:short_link])
-    link.destroy!
-
-    redirect_to root_path
+    endpoint Link::Operation::Destroy do
+      redirect_to root_path
+    end
   end
 
   def create
-    current_user.links << Link.create!(full_link: params[:link][:full_link])
+    endpoint Link::Operation::Create do |result|
+      flash.alert = result[:errors] if result[:errors].present?
 
-    redirect_to root_path
+      redirect_to root_path
+    end
   end
 
   def redirect
-    redirect_to Link.find(params[:short_link]).full_link,
+    redirect_to Link.find_by(short_link: params[:short_link]).full_link,
                 allow_other_host: true
   rescue StandardError
     raise ActionController::RoutingError, 'Not Found'

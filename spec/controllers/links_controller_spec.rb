@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
-  include RSpec::Benchmark::Matchers
   
   describe 'GET #redirect' do
     let!(:link) { FactoryBot.create(:link) }

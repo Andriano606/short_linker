@@ -64,7 +64,9 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.javascript_driver = if ENV.fetch('SHOW_CHROME_DURING_TESTS', 'false') == 'true'
+show_chrome = ENV.fetch('RAILS_ENV', 
+                        'test') == 'development' && ENV.fetch('SHOW_CHROME_DURING_TESTS', 'false') == 'true'
+Capybara.javascript_driver = if show_chrome
                                :chrome
                              else
                                :selenium_chrome_headless
